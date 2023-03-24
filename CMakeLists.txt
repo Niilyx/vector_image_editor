@@ -3,4 +3,4 @@ project(vector_image_editor C)
 
 set(CMAKE_C_STANDARD 99)
 
-add_executable(vector_image_editor main.c)
+add_executable(vector_image_editor src/main.c)
