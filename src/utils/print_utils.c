@@ -71,3 +71,11 @@ void listen_choose_size() {
 void print_about() {
     printf("\nPour dessiner des images vectorielles, allons donc.");
 }
+
+
+
+// ##########################################################
+
+void print_canvas() {
+
+}
