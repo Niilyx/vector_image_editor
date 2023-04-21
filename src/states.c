@@ -4,5 +4,4 @@
 
 #include "states.h"
 
-typedef enum { MAIN_MENU, CHOOSE_SIZE } STATE;
 STATE current_state = MAIN_MENU;

@@ -4,6 +4,7 @@
 
 #include <stdio.h>
 #include "print_utils.h"
+#include "../states.c"
 
 void newline() {
     printf("\n");
@@ -12,7 +13,7 @@ void newline() {
 void print_main_menu() {
     printf("\n###################################");
     printf("\n##                               ##");
-    printf("\n##    LE TITRE DU PROJET !!!!!!  ##");
+    printf("\n##   LE TITRE DU PROJET !!!!!!   ##");
     printf("\n##                               ##");
     printf("\n##                               ##");
     printf("\n##                               ##");
@@ -45,6 +46,24 @@ void listen_main_menu() {
                 printf("\n\t2. À propos");
                 break;
             }
+        }
+    }
+}
+
+void print_choose_size() {
+    printf("\nChoisissez la taille de votre dessin (entre 10 et 50) : ");
+}
+
+void listen_choose_size() {
+    int size;
+
+    while (1) {
+        scanf("%d", &size);
+        if (size >= 10 && size <= 50) {
+            current_state = MAIN_MENU;
+            return;
+        } else {
+            printf("\nChoisissez la taille de votre dessin (entre 10 et 50) : ");
         }
     }
 }
