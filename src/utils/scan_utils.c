@@ -6,7 +6,7 @@
 #include "scan_utils.h"
 
 void scan_point(int* a, int* b, int n) {
-    printf("Entrez x%d et y%d : ", n, n);
+    printf("Entrez x%d y%d : ", n, n);
     fflush(stdin);
     scanf("%d %d", a, b);
 }

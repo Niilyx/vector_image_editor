@@ -171,14 +171,16 @@ Shape *create_circle_shape(int px, int py, int radius) {
 
 Shape *create_polygon_shape(const int lst[], int n) {
     Shape *shp = create_empty_shape(POLYGON);
-    Point **points = malloc(sizeof(Point) * 2*n);
-    for (int i = 1; i < 2*n; i++) {
+    Point **points = malloc(sizeof(Point) * n);
+
+    for (int i = 0; i < n; i++) {
         Point *point = malloc(sizeof(Point));
-        point->x = lst[i - 1];
-        point->y = lst[i];
+        point->x = lst[2 * i];
+        point->y = lst[2 * i + 1];
 
         points[i] = point;
     }
+
     Polygon *p = create_polygon(points, n);
     shp->ptr_shape = p;
     return shp;

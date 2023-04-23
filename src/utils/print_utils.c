@@ -98,7 +98,7 @@ void print_shapes() {
         printf("\n\tIl n'y a pas de formes dans le dessin.\n");
         return;
     }
-    printf("\n\tVoici la liste des formes :");
+    printf("\n\n\n\n\tVoici la liste des formes :");
     for (int i = 0; i < drawing->nb_shapes; i++) {
         printf("\n\t\t%d : ", i + 1);
         switch (drawing->shapes[i]->shape_type) {
@@ -134,6 +134,9 @@ void print_shapes() {
             }
         }
     }
+    newline();
+    newline();
+    newline();
 }
 
 
@@ -147,7 +150,7 @@ void print_canvas_menu() {
     printf("\nVeuillez choisir une action :");
     printf("\n\tA- Ajouter une forme");
     printf("\n\tB- Afficher la liste des formes");
-    printf("\n\tC- Supprimer une forme");
+    printf("\n\tC- Supprimer une forme (non fait pour l'instant !)");
     printf("\n\tD- Tracer le dessin (non fait pour l'instant !)");
     newline();
     printf("\n\tQ- Quitter");
@@ -190,7 +193,7 @@ void listen_canvas_menu() {
                 printf("\nVeuillez choisir une action :");
                 printf("\n\tA- Ajouter une forme");
                 printf("\n\tB- Afficher la liste des formes");
-                printf("\n\tC- Supprimer une forme");
+                printf("\n\tC- Supprimer une forme (non fait pour l'instant !)");
                 printf("\n\tD- Tracer le dessin (non fait pour l'instant !)");
                 newline();
                 printf("\n\tQ- Quitter");
@@ -226,7 +229,6 @@ void listen_add_shape_menu() {
                 int x, y;
                 scan_point(&x, &y, 1);
                 Shape* point_shape = create_point_shape(x, y);
-                point_shape->id = get_next_id();
                 point_shape->shape_type = POINT;
 
                 drawing->nb_shapes++;
@@ -242,7 +244,6 @@ void listen_add_shape_menu() {
                 scan_point(&x2, &y2, 2);
 
                 Shape* line_shape = create_line_shape(x1, y1, x2, y2);
-                line_shape->id = get_next_id();
                 line_shape->shape_type = LINE;
 
                 drawing->nb_shapes++;
@@ -258,7 +259,6 @@ void listen_add_shape_menu() {
                 scan_length(&len, 1);
 
                 Shape* square_shape = create_square_shape(x, y, len);
-                square_shape->id = get_next_id();
                 square_shape->shape_type = SQUARE;
 
                 drawing->nb_shapes++;
@@ -275,7 +275,6 @@ void listen_add_shape_menu() {
                 scan_length(&height, 2);
 
                 Shape* rectangle_shape = create_rectangle_shape(x, y, length, height);
-                rectangle_shape->id = get_next_id();
                 rectangle_shape->shape_type = RECTANGLE;
 
                 drawing->nb_shapes++;
@@ -291,7 +290,6 @@ void listen_add_shape_menu() {
                 scan_length(&radius, 1);
 
                 Shape* circle_shape = create_circle_shape(x, y, radius);
-                circle_shape->id = get_next_id();
                 circle_shape->shape_type = CIRCLE;
 
                 drawing->nb_shapes++;
@@ -305,14 +303,20 @@ void listen_add_shape_menu() {
                 int nb_pts;
                 scan_points_number(&nb_pts);
 
-                int* coord_tab = (int *) malloc(nb_pts * 2 * sizeof(int));
+                int* tab_x = (int *) malloc(nb_pts * sizeof(int));
+                int* tab_y = (int *) malloc(nb_pts * sizeof(int));
 
                 for (int i = 0; i < nb_pts; i++) {
-                    scan_point(&coord_tab[i], &coord_tab[i+1], i + 1);
+                    scan_point(&tab_x[i], &tab_y[i], i + 1);
+                }
+
+                int* coord_tab = (int *) malloc(2 * nb_pts * sizeof(int));
+                for (int i = 0; i < nb_pts; i++) {
+                    coord_tab[2 * i] = tab_x[i];
+                    coord_tab[2 * i + 1] = tab_y[i];
                 }
 
                 Shape* polygon_shape = create_polygon_shape(coord_tab, nb_pts);
-                polygon_shape->id = get_next_id();
                 polygon_shape->shape_type = POLYGON;
 
                 drawing->nb_shapes++;
