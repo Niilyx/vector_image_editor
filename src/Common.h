@@ -12,4 +12,6 @@
 extern STATE current_state;
 extern Drawing *drawing;
 
+extern unsigned int global_id;
+
 #endif //VECTOR_IMAGE_EDITOR_COMMON_H

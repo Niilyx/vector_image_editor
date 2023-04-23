@@ -9,6 +9,8 @@
 #include "../states.h"
 
 #include "../Common.h"
+#include "scan_utils.h"
+#include "../id.h"
 
 void newline() {
     printf("\n");
@@ -148,17 +150,23 @@ void print_canvas_menu() {
     printf("\n\tC- Supprimer une forme");
     printf("\n\tD- Tracer le dessin (non fait pour l'instant !)");
     newline();
+    printf("\n\tQ- Quitter");
+    newline();
 }
 
 void listen_canvas_menu() {
     char choice;
 
     while (1) {
+        fflush(stdin);
         scanf(" %c", &choice);
         switch (choice) {
             case 'A':
             case 'a': {
-                current_state = ADD_SHAPE;
+                if (drawing->nb_shapes < 256)
+                    current_state = ADD_SHAPE;
+                else
+                    printf("\n\tVous avez atteint le nombre maximum de formes dans le dessin !");
                 return;
             }
             case 'B':
@@ -174,12 +182,161 @@ void listen_canvas_menu() {
             case 'd': {
                 return;
             }
+            case 'Q':
+            case 'q': {
+                exit(0);
+            }
             default: {
                 printf("\nVeuillez choisir une action :");
                 printf("\n\tA- Ajouter une forme");
                 printf("\n\tB- Afficher la liste des formes");
                 printf("\n\tC- Supprimer une forme");
                 printf("\n\tD- Tracer le dessin (non fait pour l'instant !)");
+                newline();
+                printf("\n\tQ- Quitter");
+                newline();
+                break;
+            }
+        }
+    }
+}
+
+void print_add_shape_menu() {
+    printf("\nVeuillez choisir une forme a ajouter :");
+    printf("\n\tA- Point");
+    printf("\n\tB- Ligne");
+    printf("\n\tC- Carre");
+    printf("\n\tD- Rectangle");
+    printf("\n\tE- Cercle");
+    printf("\n\tF- Polygone");
+    newline();
+    printf("\n\tQ- Annuler");
+    newline();
+}
+
+void listen_add_shape_menu() {
+    char choice;
+
+    while (1) {
+        fflush(stdin);
+        scanf(" %c", &choice);
+        switch (choice) {
+            case 'A':
+            case 'a': { // Ajouter un point
+                int x, y;
+                scan_point(&x, &y, 1);
+                Shape* point_shape = create_point_shape(x, y);
+                point_shape->id = get_next_id();
+                point_shape->shape_type = POINT;
+
+                drawing->nb_shapes++;
+                drawing->shapes[drawing->nb_shapes - 1] = point_shape;
+
+                current_state = ON_CANVAS;
+                return;
+            }
+            case 'B':
+            case 'b': { // Ajouter une ligne
+                int x1, y1, x2, y2;
+                scan_point(&x1, &y1, 1);
+                scan_point(&x2, &y2, 2);
+
+                Shape* line_shape = create_line_shape(x1, y1, x2, y2);
+                line_shape->id = get_next_id();
+                line_shape->shape_type = LINE;
+
+                drawing->nb_shapes++;
+                drawing->shapes[drawing->nb_shapes - 1] = line_shape;
+
+                current_state = ON_CANVAS;
+                return;
+            }
+            case 'C':
+            case 'c': { // Ajouter un carré
+                int x, y, len;
+                scan_point(&x, &y, 1);
+                scan_length(&len, 1);
+
+                Shape* square_shape = create_square_shape(x, y, len);
+                square_shape->id = get_next_id();
+                square_shape->shape_type = SQUARE;
+
+                drawing->nb_shapes++;
+                drawing->shapes[drawing->nb_shapes - 1] = square_shape;
+
+                current_state = ON_CANVAS;
+                return;
+            }
+            case 'D':
+            case 'd': { // Ajouter un rectangle
+                int x, y, length, height;
+                scan_point(&x, &y, 1);
+                scan_length(&length, 1);
+                scan_length(&height, 2);
+
+                Shape* rectangle_shape = create_rectangle_shape(x, y, length, height);
+                rectangle_shape->id = get_next_id();
+                rectangle_shape->shape_type = RECTANGLE;
+
+                drawing->nb_shapes++;
+                drawing->shapes[drawing->nb_shapes - 1] = rectangle_shape;
+
+                current_state = ON_CANVAS;
+                return;
+            }
+            case 'E':
+            case 'e': { // Ajouter un cercle
+                int x, y, radius;
+                scan_point(&x, &y, 1);
+                scan_length(&radius, 1);
+
+                Shape* circle_shape = create_circle_shape(x, y, radius);
+                circle_shape->id = get_next_id();
+                circle_shape->shape_type = CIRCLE;
+
+                drawing->nb_shapes++;
+                drawing->shapes[drawing->nb_shapes - 1] = circle_shape;
+
+                current_state = ON_CANVAS;
+                return;
+            }
+            case 'F':
+            case 'f': { // Ajouter un polygone
+                int nb_pts;
+                scan_points_number(&nb_pts);
+
+                int* coord_tab = (int *) malloc(nb_pts * 2 * sizeof(int));
+
+                for (int i = 0; i < nb_pts; i++) {
+                    scan_point(&coord_tab[i], &coord_tab[i+1], i + 1);
+                }
+
+                Shape* polygon_shape = create_polygon_shape(coord_tab, nb_pts);
+                polygon_shape->id = get_next_id();
+                polygon_shape->shape_type = POLYGON;
+
+                drawing->nb_shapes++;
+                drawing->shapes[drawing->nb_shapes - 1] = polygon_shape;
+
+                current_state = ON_CANVAS;
+                return;
+            }
+            case 'Q':
+            case 'q': {
+                current_state = ON_CANVAS;
+                return;
+            }
+            default: {
+                printf("\nVeuillez choisir une forme à ajouter :");
+                printf("\n\tA- Point");
+                printf("\n\tB- Ligne");
+                printf("\n\tC- Carre");
+                printf("\n\tD- Rectangle");
+                printf("\n\tE- Cercle");
+                printf("\n\tF- Polygone");
+                newline();
+                printf("\n\tQ- Annuler");
+                newline();
                 break;
             }
         }

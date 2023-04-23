@@ -29,6 +29,8 @@ int main() {
                 break;
             }
             case ADD_SHAPE: {
+                print_add_shape_menu();
+                listen_add_shape_menu();
                 break;
             }
         }

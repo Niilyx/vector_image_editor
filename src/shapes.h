@@ -23,13 +23,13 @@ typedef struct {
 } Circle;
 
 typedef struct {
-    Point *start;
+    Point *origin;
     int size;
     // float angle;
 } Square;
 
 typedef struct {
-    Point *start;
+    Point *origin;
     int length;
     int height;
 } Rectangle;
@@ -50,7 +50,7 @@ typedef struct {
     int size_x;
     int size_y;
 
-    Shape **shapes;
+    Shape* shapes[256]; // arbitraire, et sera changé sur implémentation de la liste chainée
     int nb_shapes;
 } Drawing;
 
@@ -85,7 +85,7 @@ Shape *create_line_shape(int px1, int py1, int px2, int py2);
 Shape *create_square_shape(int px, int py, int length);
 Shape *create_rectangle_shape(int px, int py, int width, int height);
 Shape *create_circle_shape(int px, int py, int radius);
-Shape *create_polygon_shape(int lst[], int n);
+Shape *create_polygon_shape(const int lst[], int n);
 void delete_shape(Shape * shape);
 void print_shape(Shape * shape);
 

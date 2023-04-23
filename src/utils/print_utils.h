@@ -17,4 +17,7 @@ void print_canvas_menu();
 void listen_canvas_menu();
 
 void print_about();
+
+void print_add_shape_menu();
+void listen_add_shape_menu();
 #endif //VECTOR_IMAGE_EDITOR_PRINT_UTILS_H
