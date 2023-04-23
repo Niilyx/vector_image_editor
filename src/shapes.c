@@ -4,13 +4,13 @@
 
 #include <stdlib.h>
 #include <stdio.h>
-#include "drawing.h"
+#include "shapes.h"
 
 // ==================== POINT ====================
 Point* create_point(int x, int y) {
     Point *p = malloc(sizeof(Point));
-    p->x = px;
-    p->y = py;
+    p->x = x;
+    p->y = y;
     return p;
 }
 
@@ -42,7 +42,7 @@ void print_line(Line *l) {
 
 Circle* create_circle(Point *start, int radius) {
     Circle *c = malloc(sizeof(Circle));
-    c->start = start;
+    c->center = start;
     c->radius = radius;
     return c;
 }
@@ -52,7 +52,7 @@ void delete_circle(Circle *circle) {
 }
 
 void print_circle(Circle *c) {
-    printf("CIRCLE %d %d %d", c->start->x, c->start->y, c->radius);
+    printf("CIRCLE %d %d %d", c->center->x, c->center->y, c->radius);
 }
 
 // ==================== SQUARE ====================

@@ -3,8 +3,11 @@
 //
 
 #include <stdio.h>
+#include <stdlib.h>
 #include "print_utils.h"
-#include "../states.c"
+#include "../shapes.h"
+#include "../states.h"
+#include "../main.h"
 
 void newline() {
     printf("\n");
@@ -13,7 +16,7 @@ void newline() {
 void print_main_menu() {
     printf("\n###################################");
     printf("\n##                               ##");
-    printf("\n##   LE TITRE DU PROJET !!!!!!   ##");
+    printf("\n##          PEINTURE.COM         ##");
     printf("\n##                               ##");
     printf("\n##                               ##");
     printf("\n##                               ##");
@@ -22,6 +25,8 @@ void print_main_menu() {
     printf("\n\t1. Nouveau dessin");
     newline();
     printf("\n\t2. À propos");
+    newline();
+    printf("\n\t99. Quitter");
 }
 
 void listen_main_menu() {
@@ -33,17 +38,23 @@ void listen_main_menu() {
             case 1: {
                 fflush(stdin);
                 current_state = CHOOSE_SIZE;
+                drawing = (Drawing*) malloc(sizeof(Drawing));
                 return;
             }
             case 2: {
-                printf("À propos");
+                print_about();
                 return;
+            }
+            case 99: {
+                exit(0);
             }
             default: {
                 printf("\nQue souhaiteriez-vous faire ?");
                 printf("\n\t1. Nouveau dessin");
                 newline();
                 printf("\n\t2. À propos");
+                newline();
+                printf("\n\t99. Quitter");
                 break;
             }
         }
@@ -72,6 +83,44 @@ void print_about() {
     printf("\nPour dessiner des images vectorielles, allons donc.");
 }
 
+void print_shapes() {
+    printf("\n\tVoici la liste des formes :");
+    for (int i = 0; i < drawing->nb_shapes; i++) {
+        printf("\n\t\t%d : ", i + 1);
+        switch (drawing->shapes[i]->shape_type) {
+            case POINT: {
+                Point *point = (Point *) drawing->shapes[i]->ptr_shape;
+                print_point(point);
+                break;
+            }
+            case LINE: {
+                Line *line = (Line *) drawing->shapes[i]->ptr_shape;
+                print_line(line);
+                break;
+            }
+            case SQUARE: {
+                Square *square = (Square *) drawing->shapes[i]->ptr_shape;
+                print_square(square);
+                break;
+            }
+            case RECTANGLE: {
+                Rectangle *rectangle = (Rectangle *) drawing->shapes[i]->ptr_shape;
+                print_rectangle(rectangle);
+                break;
+            }
+            case CIRCLE: {
+                Circle *circle = (Circle *) drawing->shapes[i]->ptr_shape;
+                print_circle(circle);
+                break;
+            }
+            case POLYGON: {
+                Polygon *polygon = (Polygon *) drawing->shapes[i]->ptr_shape;
+                print_polygon(polygon);
+                break;
+            }
+        }
+    }
+}
 
 
 // ##########################################################
@@ -81,12 +130,11 @@ void print_canvas() {
 }
 
 void print_canvas_menu() {
-    printf("\nVeillez choisir une action :");
+    printf("\nVeuillez choisir une action :");
     printf("\n\tA- Ajouter une forme");
     printf("\n\tB- Afficher la liste des formes");
-    printf("\n\tC- Suprrimer une forme");
+    printf("\n\tC- Supprimer une forme");
     printf("\n\tD- Tracer le dessin (non fait pour l'instant !)");
-    printf("\n\tE- Aide");
 }
 
 void listen_canvas_menu() {
@@ -102,31 +150,23 @@ void listen_canvas_menu() {
             }
             case 'B':
             case 'b': {
-                current_state = SHOW_SHAPES;
+                print_shapes();
                 return;
             }
             case 'C':
             case 'c': {
-                current_state = DELETE_SHAPE;
                 return;
             }
             case 'D':
             case 'd': {
-                current_state = DRAW;
-                return;
-            }
-            case 'E':
-            case 'e': {
-                current_state = HELP;
                 return;
             }
             default: {
-                printf("\nVeillez choisir une action :");
+                printf("\nVeuillez choisir une action :");
                 printf("\n\tA- Ajouter une forme");
                 printf("\n\tB- Afficher la liste des formes");
-                printf("\n\tC- Suprrimer une forme");
+                printf("\n\tC- Supprimer une forme");
                 printf("\n\tD- Tracer le dessin (non fait pour l'instant !)");
-                printf("\n\tE- Aide");
                 break;
             }
         }
