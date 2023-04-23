@@ -9,7 +9,8 @@ int running = 1;
 Drawing *drawing;
 
 int main() {
-    setvbuf(stdout, NULL, _IONBF, 0);
+    // À décommenter si rien ne s'affiche dans la console
+//    setvbuf(stdout, NULL, _IONBF, 0);
     while (running) {
 
         switch (current_state) {
