@@ -109,3 +109,4 @@ void print_polygon(Polygon *p) {
         printf(" %d %d", p->points[i]->x, p->points[i]->y);
     }
 }
+

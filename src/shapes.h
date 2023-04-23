@@ -79,6 +79,4 @@ Polygon* create_polygon(Point *points[], int nb_points);
 void delete_polygon(Polygon *polygon);
 void print_polygon(Polygon *p);
 
-extern Drawing *drawing;
-
 #endif //VECTOR_IMAGE_EDITOR_SHAPES_H

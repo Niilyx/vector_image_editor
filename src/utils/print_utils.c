@@ -7,7 +7,8 @@
 #include "print_utils.h"
 #include "../shapes.h"
 #include "../states.h"
-#include "../main.h"
+
+#include "../Common.h"
 
 void newline() {
     printf("\n");
@@ -24,21 +25,24 @@ void print_main_menu() {
     printf("\nBonjour ! Que souhaiteriez-vous faire ?");
     printf("\n\t1. Nouveau dessin");
     newline();
-    printf("\n\t2. À propos");
+    printf("\n\t2. A propos");
     newline();
     printf("\n\t99. Quitter");
+    newline();
 }
 
 void listen_main_menu() {
-    int choice;
+    int choice = 0;
 
+    fflush(stdin);
+    scanf("%d", &choice);
     while (1) {
-        scanf("%d", &choice);
         switch (choice) {
             case 1: {
-                fflush(stdin);
+                fflush(stdout);
                 current_state = CHOOSE_SIZE;
                 drawing = (Drawing*) malloc(sizeof(Drawing));
+                drawing->nb_shapes = 0;
                 return;
             }
             case 2: {
@@ -52,10 +56,11 @@ void listen_main_menu() {
                 printf("\nQue souhaiteriez-vous faire ?");
                 printf("\n\t1. Nouveau dessin");
                 newline();
-                printf("\n\t2. À propos");
+                printf("\n\t2. A propos");
                 newline();
                 printf("\n\t99. Quitter");
-                break;
+                newline();
+                return;
             }
         }
     }
@@ -66,12 +71,15 @@ void print_choose_size() {
 }
 
 void listen_choose_size() {
-    int size;
+    int size = 0;
 
     while (1) {
+        fflush(stdin);
         scanf("%d", &size);
-        if (size >= 10 && size <= 50) {
-            current_state = MAIN_MENU;
+        if (10 <= size && size <= 50) {
+            current_state = ON_CANVAS;
+            drawing->size_x = size;
+            drawing->size_y = size;
             return;
         } else {
             printf("\nChoisissez la taille de votre dessin (entre 10 et 50) : ");
@@ -80,10 +88,14 @@ void listen_choose_size() {
 }
 
 void print_about() {
-    printf("\nPour dessiner des images vectorielles, allons donc.");
+    printf("\nPour dessiner des images vectorielles, allons donc.\n");
 }
 
 void print_shapes() {
+    if (drawing->nb_shapes == 0) {
+        printf("\n\tIl n'y a pas de formes dans le dessin.\n");
+        return;
+    }
     printf("\n\tVoici la liste des formes :");
     for (int i = 0; i < drawing->nb_shapes; i++) {
         printf("\n\t\t%d : ", i + 1);
@@ -135,6 +147,7 @@ void print_canvas_menu() {
     printf("\n\tB- Afficher la liste des formes");
     printf("\n\tC- Supprimer une forme");
     printf("\n\tD- Tracer le dessin (non fait pour l'instant !)");
+    newline();
 }
 
 void listen_canvas_menu() {
