@@ -100,6 +100,9 @@ Polygon* create_polygon(Point *points[], int nb_points) {
 }
 
 void delete_polygon(Polygon *polygon) {
+    for (int i = 0; i < polygon->nb_points; ++i) {
+        free(polygon->points[i]);
+    }
     free(polygon);
 }
 
