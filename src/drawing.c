@@ -92,7 +92,7 @@ void print_rectangle(Rectangle *r) {
 
 // ==================== POLYGON ====================
 
-Polygon* create_polygon(Point **points, int nb_points) {
+Polygon* create_polygon(Point *points[], int nb_points) {
     Polygon *p = malloc(sizeof(Polygon));
     p->points = points;
     p->nb_points = nb_points;

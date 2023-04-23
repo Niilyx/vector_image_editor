@@ -79,3 +79,56 @@ void print_about() {
 void print_canvas() {
 
 }
+
+void print_canvas_menu() {
+    printf("\nVeillez choisir une action :");
+    printf("\n\tA- Ajouter une forme");
+    printf("\n\tB- Afficher la liste des formes");
+    printf("\n\tC- Suprrimer une forme");
+    printf("\n\tD- Tracer le dessin (non fait pour l'instant !)");
+    printf("\n\tE- Aide");
+}
+
+void listen_canvas_menu() {
+    char choice;
+
+    while (1) {
+        scanf(" %c", &choice);
+        switch (choice) {
+            case 'A':
+            case 'a': {
+                current_state = ADD_SHAPE;
+                return;
+            }
+            case 'B':
+            case 'b': {
+                current_state = SHOW_SHAPES;
+                return;
+            }
+            case 'C':
+            case 'c': {
+                current_state = DELETE_SHAPE;
+                return;
+            }
+            case 'D':
+            case 'd': {
+                current_state = DRAW;
+                return;
+            }
+            case 'E':
+            case 'e': {
+                current_state = HELP;
+                return;
+            }
+            default: {
+                printf("\nVeillez choisir une action :");
+                printf("\n\tA- Ajouter une forme");
+                printf("\n\tB- Afficher la liste des formes");
+                printf("\n\tC- Suprrimer une forme");
+                printf("\n\tD- Tracer le dessin (non fait pour l'instant !)");
+                printf("\n\tE- Aide");
+                break;
+            }
+        }
+    }
+}

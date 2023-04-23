@@ -15,6 +15,8 @@ int main() {
             case CHOOSE_SIZE: {
                 break;
             }
+            case ON_CANVAS:
+                break;
         }
 
     }
