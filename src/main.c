@@ -2,12 +2,14 @@
 #include "utils/print_utils.h"
 #include "shapes.h"
 
+#include <stdio.h>
+
 STATE current_state = MAIN_MENU;
 int running = 1;
 Drawing *drawing;
 
 int main() {
-
+    setvbuf(stdout, NULL, _IONBF, 0);
     while (running) {
 
         switch (current_state) {
