@@ -49,6 +49,6 @@ typedef struct {
 typedef struct {
     int size_x;
     int size_y;
-} Drawing;
+} Area;
 
 #endif //VECTOR_IMAGE_EDITOR_DRAWING_H
