@@ -7,6 +7,7 @@
 
 #include "shapes.h"
 #include "states.h"
+#include "area.h"
 
 // extern permet de ne pas réserver de mémoire, donc il n'y a jamais de conflits d'imports
 extern STATE current_state;

@@ -46,14 +46,6 @@ typedef struct {
 } Shape;
 
 
-typedef struct {
-    int size_x;
-    int size_y;
-
-    Shape* shapes[256]; // arbitraire, et sera changé sur implémentation de la liste chainée
-    int nb_shapes;
-} Area;
-
 // all functions
 Point* create_point(int x, int y);
 void delete_point(Point *point);

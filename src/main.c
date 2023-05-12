@@ -1,6 +1,8 @@
 #include "states.h"
 #include "utils/print_utils.h"
 #include "shapes.h"
+#include "area.h"
+#include "utils/scan_utils.h"
 
 #include <stdio.h>
 
