@@ -43,7 +43,7 @@ void listen_main_menu() {
             case 1: {
                 fflush(stdout);
                 current_state = CHOOSE_SIZE;
-                drawing = (Drawing*) malloc(sizeof(Drawing));
+                drawing = (Area*) malloc(sizeof(Area));
                 drawing->nb_shapes = 0;
                 return;
             }

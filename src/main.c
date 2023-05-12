@@ -6,7 +6,7 @@
 
 STATE current_state = MAIN_MENU;
 int running = 1;
-Drawing *drawing;
+Area *drawing;
 
 int main() {
     // À décommenter si rien ne s'affiche dans la console
