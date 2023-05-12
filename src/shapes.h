@@ -52,7 +52,7 @@ typedef struct {
 
     Shape* shapes[256]; // arbitraire, et sera changé sur implémentation de la liste chainée
     int nb_shapes;
-} Drawing;
+} Area;
 
 // all functions
 Point* create_point(int x, int y);

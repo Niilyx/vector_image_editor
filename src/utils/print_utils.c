@@ -43,8 +43,8 @@ void listen_main_menu() {
             case 1: {
                 fflush(stdout);
                 current_state = CHOOSE_SIZE;
-                drawing = (Drawing*) malloc(sizeof(Drawing));
-                drawing->nb_shapes = 0;
+                area = (Area*) malloc(sizeof(Area));
+                area->nb_shapes = 0;
                 return;
             }
             case 2: {
@@ -80,8 +80,8 @@ void listen_choose_size() {
         scanf("%d", &size);
         if (10 <= size && size <= 50) {
             current_state = ON_CANVAS;
-            drawing->size_x = size;
-            drawing->size_y = size;
+            area->size_x = size;
+            area->size_y = size;
             return;
         } else {
             printf("\nChoisissez la taille de votre dessin (entre 10 et 50) : ");
@@ -94,41 +94,41 @@ void print_about() {
 }
 
 void print_shapes() {
-    if (drawing->nb_shapes == 0) {
+    if (area->nb_shapes == 0) {
         printf("\n\tIl n'y a pas de formes dans le dessin.\n");
         return;
     }
     printf("\n\n\n\n\tVoici la liste des formes :");
-    for (int i = 0; i < drawing->nb_shapes; i++) {
+    for (int i = 0; i < area->nb_shapes; i++) {
         printf("\n\t\t%d : ", i + 1);
-        switch (drawing->shapes[i]->shape_type) {
+        switch (area->shapes[i]->shape_type) {
             case POINT: {
-                Point *point = (Point *) drawing->shapes[i]->ptr_shape;
+                Point *point = (Point *) area->shapes[i]->ptr_shape;
                 print_point(point);
                 break;
             }
             case LINE: {
-                Line *line = (Line *) drawing->shapes[i]->ptr_shape;
+                Line *line = (Line *) area->shapes[i]->ptr_shape;
                 print_line(line);
                 break;
             }
             case SQUARE: {
-                Square *square = (Square *) drawing->shapes[i]->ptr_shape;
+                Square *square = (Square *) area->shapes[i]->ptr_shape;
                 print_square(square);
                 break;
             }
             case RECTANGLE: {
-                Rectangle *rectangle = (Rectangle *) drawing->shapes[i]->ptr_shape;
+                Rectangle *rectangle = (Rectangle *) area->shapes[i]->ptr_shape;
                 print_rectangle(rectangle);
                 break;
             }
             case CIRCLE: {
-                Circle *circle = (Circle *) drawing->shapes[i]->ptr_shape;
+                Circle *circle = (Circle *) area->shapes[i]->ptr_shape;
                 print_circle(circle);
                 break;
             }
             case POLYGON: {
-                Polygon *polygon = (Polygon *) drawing->shapes[i]->ptr_shape;
+                Polygon *polygon = (Polygon *) area->shapes[i]->ptr_shape;
                 print_polygon(polygon);
                 break;
             }
@@ -166,7 +166,7 @@ void listen_canvas_menu() {
         switch (choice) {
             case 'A':
             case 'a': {
-                if (drawing->nb_shapes < 256)
+                if (area->nb_shapes < 256)
                     current_state = ADD_SHAPE;
                 else
                     printf("\n\tVous avez atteint le nombre maximum de formes dans le dessin !");
@@ -231,8 +231,8 @@ void listen_add_shape_menu() {
                 Shape* point_shape = create_point_shape(x, y);
                 point_shape->shape_type = POINT;
 
-                drawing->nb_shapes++;
-                drawing->shapes[drawing->nb_shapes - 1] = point_shape;
+                area->nb_shapes++;
+                area->shapes[area->nb_shapes - 1] = point_shape;
 
                 current_state = ON_CANVAS;
                 return;
@@ -246,8 +246,8 @@ void listen_add_shape_menu() {
                 Shape* line_shape = create_line_shape(x1, y1, x2, y2);
                 line_shape->shape_type = LINE;
 
-                drawing->nb_shapes++;
-                drawing->shapes[drawing->nb_shapes - 1] = line_shape;
+                area->nb_shapes++;
+                area->shapes[area->nb_shapes - 1] = line_shape;
 
                 current_state = ON_CANVAS;
                 return;
@@ -261,8 +261,8 @@ void listen_add_shape_menu() {
                 Shape* square_shape = create_square_shape(x, y, len);
                 square_shape->shape_type = SQUARE;
 
-                drawing->nb_shapes++;
-                drawing->shapes[drawing->nb_shapes - 1] = square_shape;
+                area->nb_shapes++;
+                area->shapes[area->nb_shapes - 1] = square_shape;
 
                 current_state = ON_CANVAS;
                 return;
@@ -277,8 +277,8 @@ void listen_add_shape_menu() {
                 Shape* rectangle_shape = create_rectangle_shape(x, y, length, height);
                 rectangle_shape->shape_type = RECTANGLE;
 
-                drawing->nb_shapes++;
-                drawing->shapes[drawing->nb_shapes - 1] = rectangle_shape;
+                area->nb_shapes++;
+                area->shapes[area->nb_shapes - 1] = rectangle_shape;
 
                 current_state = ON_CANVAS;
                 return;
@@ -292,8 +292,8 @@ void listen_add_shape_menu() {
                 Shape* circle_shape = create_circle_shape(x, y, radius);
                 circle_shape->shape_type = CIRCLE;
 
-                drawing->nb_shapes++;
-                drawing->shapes[drawing->nb_shapes - 1] = circle_shape;
+                area->nb_shapes++;
+                area->shapes[area->nb_shapes - 1] = circle_shape;
 
                 current_state = ON_CANVAS;
                 return;
@@ -319,8 +319,8 @@ void listen_add_shape_menu() {
                 Shape* polygon_shape = create_polygon_shape(coord_tab, nb_pts);
                 polygon_shape->shape_type = POLYGON;
 
-                drawing->nb_shapes++;
-                drawing->shapes[drawing->nb_shapes - 1] = polygon_shape;
+                area->nb_shapes++;
+                area->shapes[area->nb_shapes - 1] = polygon_shape;
 
                 current_state = ON_CANVAS;
                 return;
