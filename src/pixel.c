@@ -17,19 +17,6 @@ void delete_pixel(Pixel * pixel) {
     free(pixel);
 }
 
-Pixel** create_shape_to_pixel(Shape* shape, int* final_size) {
-    switch (shape->shape_type) {
-
-    }
-}
-
-void delete_pixel_shape(Pixel** pixels, int size) {
-    for (int i = 0; i < size; ++i) {
-        free(pixels[i]);
-    }
-    free(pixels);
-}
-
 void pixel_point(Shape* shape, Pixel*** pixels, int* size) {
     Point* point = shape->ptr_shape;
     (*size)++;
@@ -130,4 +117,37 @@ void pixel_polygon(Shape* shape, Pixel*** pixels, int* size) {
     for (int i = 0; i < polygon->nb_points - 1; ++i) {
         pixel_line(create_line_shape(polygon->points[i]->x, polygon->points[i]->y, polygon->points[i+1]->x, polygon->points[i+1]->y), pixels, size);
     }
+}
+
+void delete_pixel_shape(Pixel*** pixels, int nb_pixels) {
+    for (int i = 0; i < nb_pixels; ++i) {
+        free((*pixels)[i]);
+    }
+    free(*pixels);
+    free(pixels);
+}
+
+Pixel** create_shape_to_pixel(Shape* shape, int* final_size) {
+    Pixel** pixels = malloc(sizeof(Pixel*));
+    *final_size = 0;
+    switch (shape->shape_type) {
+        case POINT:
+            pixel_point(shape, &pixels, final_size);
+            break;
+        case LINE:
+            pixel_line(shape, &pixels, final_size);
+            break;
+        case RECTANGLE:
+            pixel_rectangle(shape, &pixels, final_size);
+            break;
+        case CIRCLE:
+            pixel_circle(shape, &pixels, final_size);
+            break;
+        case POLYGON:
+            pixel_polygon(shape, &pixels, final_size);
+            break;
+        default:
+            break;
+    }
+    return pixels;
 }
