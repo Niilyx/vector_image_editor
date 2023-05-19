@@ -11,7 +11,9 @@ void print_choose_size();
 
 void print_canvas();
 
-void print_canvas_menu();
+void print_prompt();
+
+void print_help();
 
 void print_about();
 
@@ -21,4 +23,5 @@ void print_add_shape_menu();
 
 void newline();
 
+void error_msg();
 #endif //VECTOR_IMAGE_EDITOR_PRINT_UTILS_H

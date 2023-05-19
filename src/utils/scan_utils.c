@@ -55,6 +55,7 @@ void listen_main_menu() {
                 return;
             }
             case 99: {
+                printf("Au revoir !");
                 exit(0);
             }
             default: {

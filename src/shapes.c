@@ -6,6 +6,7 @@
 #include <stdio.h>
 #include "shapes.h"
 #include "id.h"
+#include "Common.h"
 
 // ==================== POINT ====================
 Point* create_point(int x, int y) {
@@ -181,7 +182,7 @@ Shape *create_polygon_shape(const int lst[], int n) {
         points[i] = point;
     }
 
-    Polygon *p = create_polygon(points, n);
+    Polygon *p = create_polygon(points, n / 2);
     shp->ptr_shape = p;
     return shp;
 }

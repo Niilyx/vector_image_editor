@@ -25,7 +25,11 @@ Area* create_area(unsigned int width, unsigned int height) {
 }
 
 void add_shape_to_area(Area* area, Shape* shape) {
-    area->shapes[area->nb_shapes++] = shape;
+    if (area->nb_shapes >= SHAPE_MAX) {
+        printf("\nErreur : il y a trop de formes sur le dessin");
+        return;
+    }
+    area->shapes[(area->nb_shapes)++] = shape;
 }
 
 void clear_area(Area* area) {
@@ -73,4 +77,11 @@ void print_area(Area* area) {
         }
         printf("\n");
     }
+}
+
+Shape* get_shape(Area* area, int id) {
+    for (int i = 0; i < area->nb_shapes; ++i) {
+        if (area->shapes[i]->id == id) return area->shapes[i];
+    }
+    return NULL;
 }

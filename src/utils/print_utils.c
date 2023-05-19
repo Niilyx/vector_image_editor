@@ -47,9 +47,9 @@ void print_shapes() {
         printf("\n\tIl n'y a pas de formes dans le dessin.\n");
         return;
     }
-    printf("\n\n\n\n\tVoici la liste des formes :");
+    printf("\n\n\tVoici la liste des formes :");
     for (int i = 0; i < area->nb_shapes; i++) {
-        printf("\n\t\t%d : ", i + 1);
+        printf("\n\t\tID %d : ", area->shapes[i]->id);
         switch (area->shapes[i]->shape_type) {
             case POINT: {
                 Point *point = (Point *) area->shapes[i]->ptr_shape;
@@ -95,15 +95,30 @@ void print_canvas() {
 
 }
 
-void print_canvas_menu() {
-    printf("\nVeuillez choisir une action :");
-    printf("\n\tA- Ajouter une forme");
-    printf("\n\tB- Afficher la liste des formes");
-    printf("\n\tC- Supprimer une forme (non fait pour l'instant !)");
-    printf("\n\tD- Tracer le dessin (non fait pour l'instant !)");
+void print_prompt() {
     newline();
-    printf("\n\tQ- Quitter");
+    printf(">> ");
+}
+
+void print_help() {
     newline();
+    printf("Voici la liste des commandes disponibles :");
+    newline();
+    printf("\n\t- point x y : ajoute un point");
+    printf("\n\t- line x1 y1 x2 y2 : ajoute un segment reliant deux points (x1, y1) et (x2, y2)");
+    printf("\n\t- circle x y radius : ajoute un cercle de centre (x, y) et de rayon radius");
+    printf("\n\t- square x y length : ajoute un carre dont le coin superieur gauche est (x, y) et de cote length.");
+    printf("\n\t- rectangle x y width height : ajoute un rectangle dont le coin superieur gauche est (x, y), de largeur width et de longueur height");
+    printf("\n\t- polygon x1 y1 x2 y2 x3 y3 ... ... : ajoute un polygone avec la liste des points donnes");
+    printf("\n\t- plot : affiche le dessin");
+    printf("\n\t- list : liste les formes du dessin");
+    printf("\n\t- delete id : supprime une forme d'identifiant (id) si elle existe");
+    printf("\n\t- clear : efface l'ecran");
+    printf("\n\t- erase : supprime toutes les formes du dessin");
+    newline();
+    printf("\n\t- help : affiche la liste des commandes disponibles");
+    newline();
+    printf("\n\t- quit : quitte le programme");
 }
 
 void print_add_shape_menu() {
@@ -119,3 +134,6 @@ void print_add_shape_menu() {
     newline();
 }
 
+void error_msg() {
+    printf("\nSyntaxe incorrecte. Utilisez la commande \"help\" pour plus d'informations.");
+}

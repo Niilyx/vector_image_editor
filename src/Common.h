@@ -11,6 +11,7 @@
 
 // extern permet de ne pas réserver de mémoire, donc il n'y a jamais de conflits d'imports
 extern STATE current_state;
+extern int running;
 extern Area *area;
 
 extern unsigned int global_id;
