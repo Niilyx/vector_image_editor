@@ -1,6 +1,7 @@
 //
 // Created by Niilyx on 19/05/2023.
 //
+// Ici sont gérées les commandes utilisateurs, donc leur interprétation et leur exécution.
 
 #include <stdlib.h>
 #include <stdio.h>
@@ -10,6 +11,12 @@
 #include "utils/strings.h"
 #include "utils/print_utils.h"
 
+/**
+ * Vérifie sur la commande donnée a le bon nombre d'arguments
+ * @param substrings_number nombre d'arguments passés à la commande
+ * @param type type de la commande
+ * @return 1 pour vrai, 0 pour faux
+ */
 int check_args_number(int substrings_number, COMMAND_TYPE type) {
     substrings_number--;
     switch (type) {
@@ -36,11 +43,19 @@ int check_args_number(int substrings_number, COMMAND_TYPE type) {
     }
 }
 
+/**
+ * Petite fonction de nettoyage de la mémoire
+ * @param array liste à libérer
+ */
 void cleanup_scanning(char ***array) {
     free(*array);
     free(array);
 }
 
+/**
+ * Crée une commande
+ * @return la commande créée
+ */
 Command* create_cmd() {
     Command* cmd = malloc(sizeof(Command));
     cmd->type = undefined;
@@ -49,14 +64,26 @@ Command* create_cmd() {
     return cmd;
 }
 
+/**
+ * Inutilisé
+ */
 void add_str_param(Command* cmd, char* p) {
     cmd->str_params[cmd->str_size++] = p;
 }
 
+/**
+ * Ajoute un paramètre de type entier à la commande
+ * @param cmd la commande
+ * @param p entier à ajouter
+ */
 void add_int_param(Command* cmd, int p) {
     cmd->int_params[(cmd->int_size)++] = p;
 }
 
+/**
+ * Libère la mémoire allouée à la commande
+ * @param cmd la commande
+ */
 void free_cmd(Command* cmd) {
 //    for (int i = 0; i < cmd->str_size; ++i) {
 //        free(cmd->str_params[i]);
@@ -64,6 +91,11 @@ void free_cmd(Command* cmd) {
     free(cmd);
 }
 
+/**
+ *
+ * @param cmd
+ * @return
+ */
 int exec_command(Command* cmd) {
     switch (cmd->type) {
         case quit: {
@@ -159,7 +191,8 @@ int exec_command(Command* cmd) {
             break;
         }
         case plot: {
-            print_canvas();
+            draw_area(area);
+            print_area(area);
             break;
         }
         case list:

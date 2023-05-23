@@ -1,6 +1,8 @@
 //
 // Created by Idir on 12/05/2023.
 //
+// Ce fichier relate de l'Area, la zone de dessin.
+// On a donc la création de l'Area, l'ajout de formes à l'Area, le nettoyage de l'Area et l'affichage de l'Area.
 
 #include <stdlib.h>
 #include <stdio.h>
@@ -33,9 +35,9 @@ void add_shape_to_area(Area* area, Shape* shape) {
 }
 
 void clear_area(Area* area) {
-    for (int i = 0; i < area->size_x; ++i) {
-        for(int j = 0; j < area->size_y; ++j) {
-            area->mat[i][j] = 0;
+    for (int y = 0; y < area->size_y; ++y) {
+        for(int x = 0; x < area->size_x; ++x) {
+            area->mat[y][x] = 0;
         }
     }
 }
@@ -57,6 +59,7 @@ void delete_area(Area* area) {
 }
 
 void draw_area(Area* area) {
+    clear_area(area);
     for (int i = 0; i < area->nb_shapes; ++i) {
         Pixel** pixels;
         int n;
@@ -71,9 +74,8 @@ void draw_area(Area* area) {
 void print_area(Area* area) {
     for (int i = 0; i < area->size_y; i++) {
         for (int j = 0; j < area->size_x; j++) {
-            if (area->mat[i][j]) printf("#");
-            else printf(".");
-            printf(" ");
+            if (area->mat[i][j]) printf(" #");
+            else printf(" .");
         }
         printf("\n");
     }

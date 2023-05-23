@@ -5,11 +5,13 @@
 
 #include "pixel.h"
 #include "shapes.h"
+#include "utils/math.h"
 
 Pixel *create_pixel(int px, int py) {
     Pixel *p = malloc(sizeof(Pixel));
     p->px = px;
     p->py = py;
+
     return p;
 }
 
@@ -24,25 +26,77 @@ void pixel_point(Shape* shape, Pixel*** pixels, int* size) {
     *pixels[*size - 1] = create_pixel(point->x, point->y);
 }
 
-void pixel_line(Shape* shape, Pixel*** pixels, int* nb_pixels) {
+void pixel_line(Shape * shape, Pixel*** pixels, int* size) {
     Line* line = shape->ptr_shape;
 
-    int x, y, dx, dy;
-    float e, e_10, e_01;
-    dy = line->p2->y - line->p1->y;
-    dx = line->p2->x - line->p1->x;
-    y = line->p1->y;
-    e = 0.f;
-    e_10 = (float) dy / (float) dx;
-    e_01 = -1.f;
+    int dx, dy;
+    int x, y;
 
-    for (x = line->p1->x; x <= line->p2->x; ++x) {
-        *pixels = realloc(*pixels, sizeof(Pixel*) * (*nb_pixels + 1));
-        (*pixels)[(*nb_pixels)++] = create_pixel(x, y);
-        e += e_10;
-        if ((e = e+e_10) >= 0.5f) {
-            y++;
-            e += e_01;
+    int k=0;
+
+    if (line->p2->x >= line->p1->x){
+        dx = line->p2->x - line->p1->x;
+        dy = line->p2->y - line->p1->y;
+        x = line->p1->x;
+        y = line->p1->y;
+    } else {
+        dx = line->p1->x - line->p2->x;
+        dy = line->p1->y - line->p2->y;
+        x = line->p2->x;
+        y = line->p2->y;
+    }
+
+    int dmin = min(dx,abs(dy));
+    int dmax = max(dx,abs(dy));
+    int nb_segs = dmin + 1;
+    int* segments = malloc(nb_segs * sizeof(int));
+
+    for (int i = 0; i < nb_segs; i++){
+        segments[i] = (dmax + 1) / nb_segs;
+    }
+
+    int restants = (dmax + 1) % nb_segs;
+    int* cumuls = malloc(nb_segs * sizeof(int));
+    cumuls[0] = 0;
+
+    for (int i = 1; i < nb_segs; i++){
+        cumuls[i] = ((i * restants) % nb_segs > ((i + 1) * restants) % nb_segs);
+        segments[i] = segments[i] + cumuls[i];
+    }
+
+
+    if (dy < 0){ // On trace vers le bas
+        if (dx > abs(dy)){ // Les segments sont horizontaux
+            for (int i = 0; i < nb_segs - 1; i++) {
+                for (int j = 0; j < segments[i]; j++) {
+                    *pixels = realloc(*pixels, ((*size) + 1) * sizeof(Pixel*));
+                    (*pixels)[(*size)++] = create_pixel(x + k++, y - i);
+                }
+            }
+        } else { // Les segments sont verticaux
+            for (int i = 0; i < nb_segs - 1; i++){
+                for (int j = 0; j < segments[i]; j++){
+                    *pixels = realloc(*pixels, ((*size) + 1) * sizeof(Pixel*));
+                    (*pixels)[(*size)++] = create_pixel(x + i, y - k++);
+                }
+            }
+        }
+    } else { // On trace vers le haut
+        if (dx > dy) { // Les segments sont horizontaux
+            for(int i = 0; i < nb_segs - 1; i++){
+                for(int j = 0; j < segments[i]; j++){
+                    *pixels = realloc(*pixels, ((*size) + 1) * sizeof(Pixel*));
+                    (*pixels)[(*size)++] = create_pixel(x + k++, y + i);
+                }
+            }
+        }
+        else{ // Les segments sont verticaux
+            for (int i = 0; i < nb_segs - 1; i++){
+                for (int j = 0; j < segments[i]; j++){
+                    *pixels = realloc(*pixels, ((*size) + 1) * sizeof(Pixel*));
+                    (*pixels)[(*size)++] = create_pixel(x + i, y + k++);
+                }
+            }
         }
     }
 }
@@ -58,7 +112,7 @@ void pixel_square(Shape* shape, Pixel*** pixels, int* size) {
         (*pixels)[(*size)++] = create_pixel(square->origin->x + i, square->origin->y + square->size - 1);
     }
     for (int i = 1; i < square->size -1; ++i) {
-        (*pixels)[(*size)++] = create_pixel(square->origin->x, square->origin->y);
+        (*pixels)[(*size)++] = create_pixel(square->origin->x, square->origin->y + i);
         (*pixels)[(*size)++] = create_pixel(square->origin->x + square->size - 1, square->origin->y + i);
     }
 }
@@ -75,7 +129,7 @@ void pixel_rectangle(Shape* shape, Pixel*** pixels, int* size) {
     }
 
     for (int i = 1; i < rectangle->height -1; ++i) {
-        (*pixels)[(*size)++] = create_pixel(rectangle->origin->x, rectangle->origin->y);
+        (*pixels)[(*size)++] = create_pixel(rectangle->origin->x, rectangle->origin->y + i);
         (*pixels)[(*size)++] = create_pixel(rectangle->origin->x + rectangle->length - 1, rectangle->origin->y + i);
     }
 }
@@ -114,8 +168,16 @@ void pixel_circle(Shape* shape, Pixel*** pixels, int* size) {
 void pixel_polygon(Shape* shape, Pixel*** pixels, int* size) {
     Polygon *polygon = shape->ptr_shape;
 
-    for (int i = 0; i < polygon->nb_points - 1; ++i) {
-        pixel_line(create_line_shape(polygon->points[i]->x, polygon->points[i]->y, polygon->points[i+1]->x, polygon->points[i+1]->y), pixels, size);
+    for (int i = 0; i < polygon->nb_points; ++i) {
+        Point* start = polygon->points[i];
+        Point* end;
+        if (i != polygon->nb_points - 1)
+            end = polygon->points[i + 1];
+        else
+            end = polygon->points[0];
+        Shape * line = create_line_shape(start->x, start->y, end->x, end->y);
+        pixel_line(line, pixels, size);
+        free(line);
     }
 }
 
@@ -136,6 +198,9 @@ Pixel** create_shape_to_pixel(Shape* shape, int* final_size) {
             break;
         case LINE:
             pixel_line(shape, &pixels, final_size);
+            break;
+        case SQUARE:
+            pixel_square(shape, &pixels, final_size);
             break;
         case RECTANGLE:
             pixel_rectangle(shape, &pixels, final_size);
