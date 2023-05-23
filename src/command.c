@@ -36,10 +36,7 @@ int check_args_number(int substrings_number, COMMAND_TYPE type) {
     }
 }
 
-void cleanup_scanning(char*** array, int substrings_number) {
-    for (int j = 0; j < substrings_number; ++j) {
-        free((*array)[j]);
-    }
+void cleanup_scanning(char ***array) {
     free(*array);
     free(array);
 }
@@ -57,13 +54,13 @@ void add_str_param(Command* cmd, char* p) {
 }
 
 void add_int_param(Command* cmd, int p) {
-    cmd->int_params[cmd->int_size++] = p;
+    cmd->int_params[(cmd->int_size)++] = p;
 }
 
 void free_cmd(Command* cmd) {
-    for (int i = 0; i < cmd->str_size; ++i) {
-        free(cmd->str_params[i]);
-    }
+//    for (int i = 0; i < cmd->str_size; ++i) {
+//        free(cmd->str_params[i]);
+//    }
     free(cmd);
 }
 
@@ -117,7 +114,7 @@ int exec_command(Command* cmd) {
             int x = cmd->int_params[0];
             int y = cmd->int_params[1];
             int l = cmd->int_params[2];
-            if (x >= area->size_x || y >= area->size_y) {
+            if (x >= area->size_x || y >= area->size_y || x + l >= area->size_x || y + l >= area->size_y) {
                 printf("\nLes coordonnees de la ligne sont en dehors de la zone de dessin.");
                 break;
             }
@@ -130,7 +127,7 @@ int exec_command(Command* cmd) {
             int y = cmd->int_params[1];
             int l = cmd->int_params[2];
             int h = cmd->int_params[3];
-            if (x >= area->size_x || y >= area->size_y) {
+            if (x >= area->size_x || y >= area->size_y || x + l >= area->size_x || y + h >= area->size_y) {
                 printf("\nLes coordonnees du rectangle sont en dehors de la zone de dessin.");
                 break;
             }
@@ -139,8 +136,8 @@ int exec_command(Command* cmd) {
             break;
         }
         case polygon: {
-            int* x = malloc(sizeof(int) * cmd->int_size / 2);
-            int* y = malloc(sizeof(int) * cmd->int_size / 2);
+            int* x = malloc((sizeof(int) * cmd->int_size) / 2);
+            int* y = malloc((sizeof(int) * cmd->int_size) / 2);
             for (int i = 0; i < cmd->int_size; i += 2) {
                 x[i / 2] = cmd->int_params[i];
                 y[i / 2] = cmd->int_params[i + 1];
@@ -170,12 +167,17 @@ int exec_command(Command* cmd) {
             break;
         case delete: {
             int id = cmd->int_params[0];
-            Shape* shape = get_shape(area, id);
+            int index;
+            Shape* shape = get_shape(area, id, &index);
             if (shape == NULL) {
                 printf("\nAucune forme ne correspond a cet identifiant.");
                 break;
             }
             delete_shape(shape);
+            for (int i = index; i < area->nb_shapes - 1; ++i) {
+                area->shapes[i] = area->shapes[i + 1];
+            }
+            area->nb_shapes--;
             break;
         }
         case erase: {
@@ -220,14 +222,14 @@ void read_from_stdin(Command* cmd) {
         cmd->type = clear;
     } else if (equals(command, "point")) {
         if (!check_args_number(substrings_number, point)) {
-            cleanup_scanning(splitted, substrings_number);
+            cleanup_scanning(splitted);
             return;
         }
 
         int x = parse_int((*splitted)[1]);
         int y = parse_int((*splitted)[2]);
         if (x < 0 || y < 0) {
-            cleanup_scanning(splitted, substrings_number);
+            cleanup_scanning(splitted);
             return;
         }
 
@@ -236,7 +238,7 @@ void read_from_stdin(Command* cmd) {
         cmd->type = point;
     } else if (equals(command, "line")) {
         if (!check_args_number(substrings_number, line)) {
-            cleanup_scanning(splitted, substrings_number);
+            cleanup_scanning(splitted);
             return;
         }
 
@@ -245,7 +247,7 @@ void read_from_stdin(Command* cmd) {
         int x2 = parse_int((*splitted)[3]);
         int y2 = parse_int((*splitted)[4]);
         if (x1 < 0 || y1 < 0 || x2 < 0 || y2 < 0) {
-            cleanup_scanning(splitted, substrings_number);
+            cleanup_scanning(splitted);
             return;
         }
 
@@ -256,7 +258,7 @@ void read_from_stdin(Command* cmd) {
         cmd->type = line;
     } else if (equals(command, "circle")) {
         if (!check_args_number(substrings_number, circle)) {
-            cleanup_scanning(splitted, substrings_number);
+            cleanup_scanning(splitted);
             return;
         }
 
@@ -264,7 +266,7 @@ void read_from_stdin(Command* cmd) {
         int y = parse_int((*splitted)[2]);
         int r = parse_int((*splitted)[3]);
         if (x < 0 || y < 0 || r < 0) {
-            cleanup_scanning(splitted, substrings_number);
+            cleanup_scanning(splitted);
             return;
         }
 
@@ -274,7 +276,7 @@ void read_from_stdin(Command* cmd) {
         cmd->type = circle;
     } else if (equals(command, "square")) {
         if (!check_args_number(substrings_number, square)) {
-            cleanup_scanning(splitted, substrings_number);
+            cleanup_scanning(splitted);
             return;
         }
 
@@ -282,7 +284,7 @@ void read_from_stdin(Command* cmd) {
         int y = parse_int((*splitted)[2]);
         int l = parse_int((*splitted)[3]);
         if (x < 0 || y < 0 || l < 0) {
-            cleanup_scanning(splitted, substrings_number);
+            cleanup_scanning(splitted);
             return;
         }
 
@@ -292,7 +294,7 @@ void read_from_stdin(Command* cmd) {
         cmd->type = square;
     } else if (equals(command, "rectangle")) {
         if (!check_args_number(substrings_number, rectangle)) {
-            cleanup_scanning(splitted, substrings_number);
+            cleanup_scanning(splitted);
             return;
         }
 
@@ -301,7 +303,7 @@ void read_from_stdin(Command* cmd) {
         int l = parse_int((*splitted)[3]);
         int h = parse_int((*splitted)[4]);
         if (x < 0 || y < 0 || l < 0 || h < 0) {
-            cleanup_scanning(splitted, substrings_number);
+            cleanup_scanning(splitted);
             return;
         }
 
@@ -312,7 +314,7 @@ void read_from_stdin(Command* cmd) {
         cmd->type = rectangle;
     } else if (equals(command, "polygon")) {
         if (!check_args_number(substrings_number, polygon)) {
-            cleanup_scanning(splitted, substrings_number);
+            cleanup_scanning(splitted);
             return;
         }
 
@@ -323,7 +325,7 @@ void read_from_stdin(Command* cmd) {
                 add_int_param(cmd, x);
                 add_int_param(cmd, y);
             } else {
-                cleanup_scanning(splitted, substrings_number);
+                cleanup_scanning(splitted);
                 return;
             }
         }
@@ -332,13 +334,13 @@ void read_from_stdin(Command* cmd) {
         cmd->type = plot;
     } else if (equals(command, "delete") || equals(command, "del")) {
         if (!check_args_number(substrings_number, delete)) {
-            cleanup_scanning(splitted, substrings_number);
+            cleanup_scanning(splitted);
             return;
         }
 
         int id = parse_int((*splitted)[1]);
         if (id < 0) {
-            cleanup_scanning(splitted, substrings_number);
+            cleanup_scanning(splitted);
             return;
         }
 
@@ -356,5 +358,5 @@ void read_from_stdin(Command* cmd) {
 
 
     // On nettoie
-    cleanup_scanning(splitted, substrings_number);
+    cleanup_scanning(splitted);
 }

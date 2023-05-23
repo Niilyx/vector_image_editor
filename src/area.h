@@ -26,5 +26,5 @@ void delete_area(Area* area);
 void draw_area(Area* area);
 void print_area(Area* area);
 
-Shape* get_shape(Area* area, int id);
+Shape* get_shape(Area* area, int id, int* index);
 #endif //VECTOR_IMAGE_EDITOR_AREA_H

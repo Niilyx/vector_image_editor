@@ -79,9 +79,12 @@ void print_area(Area* area) {
     }
 }
 
-Shape* get_shape(Area* area, int id) {
+Shape* get_shape(Area* area, int id, int* index) {
     for (int i = 0; i < area->nb_shapes; ++i) {
-        if (area->shapes[i]->id == id) return area->shapes[i];
+        if (area->shapes[i]->id == id) {
+            *index = i;
+            return area->shapes[i];
+        }
     }
     return NULL;
 }

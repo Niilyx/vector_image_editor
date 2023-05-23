@@ -21,6 +21,7 @@ int contains(const int* lst, int size, int x) {
  * @param string un pointeur vers la chaîne de caractères à découper
  * @param str_size la taille de la chaîne
  * @param delimiter le caractère délimitant
+ * @param substrings_number un pointeur vers un entier dans lequel on renvoie le nombre de sous-chaînes
  * @return un pointeur vers un tableau de chaines de caractères
  */
 char*** split(const char* string, int str_size, char delimiter, int* substrings_number) {
@@ -71,7 +72,7 @@ char*** split(const char* string, int str_size, char delimiter, int* substrings_
 int length(char** string) {
     int i = 0;
     while (string[i++] != NULL);
-    return i;
+    return i - 1;
 }
 
 int to_lower(char** c, int size) {

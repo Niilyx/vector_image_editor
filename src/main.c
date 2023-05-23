@@ -14,8 +14,7 @@ int main() {
     // À décommenter si rien ne s'affiche dans la console
     setvbuf(stdout, NULL, _IONBF, 0);
     while (running) {
-    /*TODO fix le delete (segfault)
-    */
+
         switch (current_state) {
             case MAIN_MENU: {
                 print_main_menu();
@@ -29,8 +28,6 @@ int main() {
             }
             case ON_CANVAS: {
                 Command* cmd = create_cmd();
-
-                print_canvas();
 
                 print_prompt();
                 read_from_stdin(cmd);

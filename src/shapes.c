@@ -172,9 +172,9 @@ Shape *create_circle_shape(int px, int py, int radius) {
 
 Shape *create_polygon_shape(const int lst[], int n) {
     Shape *shp = create_empty_shape(POLYGON);
-    Point **points = malloc(sizeof(Point) * n);
+    Point **points = malloc(sizeof(Point*) * n / 2);
 
-    for (int i = 0; i < n; i++) {
+    for (int i = 0; i < n / 2; i++) {
         Point *point = malloc(sizeof(Point));
         point->x = lst[2 * i];
         point->y = lst[2 * i + 1];
@@ -212,7 +212,6 @@ void delete_shape(Shape * shape) {
 }
 
 void print_shape(Shape * shape) {
-    printf("\nID: %d ", shape->id);
     switch (shape->shape_type) {
         case POINT: {
             print_point(shape->ptr_shape);

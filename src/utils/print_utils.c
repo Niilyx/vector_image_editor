@@ -50,38 +50,7 @@ void print_shapes() {
     printf("\n\n\tVoici la liste des formes :");
     for (int i = 0; i < area->nb_shapes; i++) {
         printf("\n\t\tID %d : ", area->shapes[i]->id);
-        switch (area->shapes[i]->shape_type) {
-            case POINT: {
-                Point *point = (Point *) area->shapes[i]->ptr_shape;
-                print_point(point);
-                break;
-            }
-            case LINE: {
-                Line *line = (Line *) area->shapes[i]->ptr_shape;
-                print_line(line);
-                break;
-            }
-            case SQUARE: {
-                Square *square = (Square *) area->shapes[i]->ptr_shape;
-                print_square(square);
-                break;
-            }
-            case RECTANGLE: {
-                Rectangle *rectangle = (Rectangle *) area->shapes[i]->ptr_shape;
-                print_rectangle(rectangle);
-                break;
-            }
-            case CIRCLE: {
-                Circle *circle = (Circle *) area->shapes[i]->ptr_shape;
-                print_circle(circle);
-                break;
-            }
-            case POLYGON: {
-                Polygon *polygon = (Polygon *) area->shapes[i]->ptr_shape;
-                print_polygon(polygon);
-                break;
-            }
-        }
+        print_shape(area->shapes[i]);
     }
     newline();
     newline();
@@ -92,7 +61,16 @@ void print_shapes() {
 // ##########################################################
 
 void print_canvas() {
-
+    for (int y = 0; y < area->size_y; y++) {
+        for (int x = 0; x < area->size_x; x++) {
+            if (area->mat[y][x] == 1) {
+                printf(" X");
+            } else {
+                printf(" .");
+            }
+        }
+        newline();
+    }
 }
 
 void print_prompt() {

@@ -10,6 +10,7 @@
 
 #include "../Common.h"
 
+/*
 void scan_point(int* a, int* b, int n) {
     printf("Entrez x%d y%d : ", n, n);
     fflush(stdin);
@@ -35,7 +36,7 @@ void scan_points_number(int* a) {
     }
     *a = choice;
 }
-
+*/
 void listen_main_menu() {
     int choice = 0;
 
@@ -89,6 +90,7 @@ void listen_choose_size() {
     }
 }
 
+/*
 void listen_canvas_menu() {
     char choice;
 
@@ -135,6 +137,7 @@ void listen_canvas_menu() {
         }
     }
 }
+
 
 void listen_add_shape_menu() {
     char choice;
@@ -265,3 +268,4 @@ void listen_add_shape_menu() {
         }
     }
 }
+ */
