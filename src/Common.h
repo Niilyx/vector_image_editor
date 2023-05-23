@@ -1,6 +1,7 @@
 //
 // Created by Niilyx on 23/04/2023.
 //
+// Marque les variables globales
 
 #ifndef VECTOR_IMAGE_EDITOR_COMMON_H
 #define VECTOR_IMAGE_EDITOR_COMMON_H

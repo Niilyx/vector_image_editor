@@ -1,6 +1,7 @@
 //
 // Created by Idir on 21/04/2023.
 //
+// Tout ce qui est relatif aux Shapes et leur contenu (Point, Line, Square...)
 
 #include <stdlib.h>
 #include <stdio.h>
@@ -187,6 +188,10 @@ Shape *create_polygon_shape(const int lst[], int n) {
     return shp;
 }
 
+/**
+ * Fonction aiguilleuse pour supprimer une Shape
+ * @param shape
+ */
 void delete_shape(Shape * shape) {
     switch (shape->shape_type) {
         case POINT:
@@ -211,6 +216,10 @@ void delete_shape(Shape * shape) {
     free(shape);
 }
 
+/**
+ * Fonction aiguilleuse pour afficher une Shape
+ * @param shape
+ */
 void print_shape(Shape * shape) {
     switch (shape->shape_type) {
         case POINT: {

@@ -1,6 +1,7 @@
 //
 // Created by Niilyx on 23/04/2023.
 //
+// Utilitaires de scan. Comme dans print_utils.c, certaines sont inutilisées
 
 #include <stdio.h>
 #include <stdlib.h>

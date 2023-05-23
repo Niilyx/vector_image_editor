@@ -1,6 +1,8 @@
 //
 // Created by Idir on 12/05/2023.
 //
+// Tout ce qui touche à la conversion des Shapes du dessin en vrais pixels affichables sur la console
+
 #include <stdlib.h>
 
 #include "pixel.h"
@@ -26,6 +28,7 @@ void pixel_point(Shape* shape, Pixel*** pixels, int* size) {
     *pixels[*size - 1] = create_pixel(point->x, point->y);
 }
 
+// Algorithme de Nicolas Flasque
 void pixel_line(Shape * shape, Pixel*** pixels, int* size) {
     Line* line = shape->ptr_shape;
 
@@ -104,7 +107,7 @@ void pixel_line(Shape * shape, Pixel*** pixels, int* size) {
 void pixel_square(Shape* shape, Pixel*** pixels, int* size) {
     Square* square = shape->ptr_shape;
 
-    int nb_pix_to_draw = 4*(square->size - 1);
+    int nb_pix_to_draw = 4*(square->size - 1); // on fait - 1 car sinon on compte 2 fois les coins
     *pixels = (Pixel**) realloc(*pixels, (*size + nb_pix_to_draw) * sizeof(Pixel*));
 
     for (int i = 0; i < square->size; ++i) {
@@ -134,6 +137,7 @@ void pixel_rectangle(Shape* shape, Pixel*** pixels, int* size) {
     }
 }
 
+// Algorithme de Bresenham pour tracer un cercle
 void pixel_circle(Shape* shape, Pixel*** pixels, int* size) {
     Circle* circle = shape->ptr_shape;
     int x = 0, y = circle->radius;

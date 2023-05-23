@@ -103,7 +103,9 @@ int exec_command(Command* cmd) {
             break;
         }
         case clear: {
-            printf("\033[1;1H\033[2J");
+            for (int i = 0; i < 64; ++i) {
+                newline();
+            }
             break;
         }
         case point: {
@@ -388,6 +390,8 @@ void read_from_stdin(Command* cmd) {
         cmd->type = list;
     } else if (equals(command, "help")) {
         cmd->type = help;
+    } else if (equals(command, "erase")) {
+        cmd->type = erase;
     } else {
         printf("\nCommande inconnue.\n");
         cmd->type = help;

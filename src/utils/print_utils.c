@@ -1,17 +1,13 @@
 //
 // Created by Idir on 21/04/2023.
 //
+// Utilitaires d'affichage. La plupart des fonctions sont inutilisées
 
 #include <stdio.h>
-#include <stdlib.h>
 #include "print_utils.h"
 #include "../shapes.h"
-#include "../states.h"
 
 #include "../Common.h"
-#include "scan_utils.h"
-#include "../id.h"
-#include "../area.h"
 
 void newline() {
     printf("\n");

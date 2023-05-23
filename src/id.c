@@ -1,6 +1,7 @@
 //
 // Created by Niilyx on 23/04/2023.
 //
+// Génère un identifiant unique
 
 #include "id.h"
 

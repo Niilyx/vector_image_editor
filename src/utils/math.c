@@ -1,6 +1,7 @@
 //
 // Created by Niilyx on 23/05/2023.
 //
+// Mini-utilitaire mathématique
 
 #include "math.h"
 
