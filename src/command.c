@@ -92,9 +92,9 @@ void free_cmd(Command* cmd) {
 }
 
 /**
- *
- * @param cmd
- * @return
+ * Exécute la commande donnée. À ce stade, les arguments devraient être vérifiés.
+ * @param cmd la commande
+ * @return une valeur de succès inutilisée
  */
 int exec_command(Command* cmd) {
     switch (cmd->type) {
@@ -228,6 +228,10 @@ int exec_command(Command* cmd) {
     return 0;
 }
 
+/**
+ * Lit une commande depuis l'entrée standard, et la rejette si elle a le mauvais nombre d'arguments
+ * @param cmd la commande
+ */
 void read_from_stdin(Command* cmd) {
     fflush(stdin);
     char input[100];
@@ -247,7 +251,7 @@ void read_from_stdin(Command* cmd) {
     }
 
     to_lower(*splitted, length(*splitted));
-    char *command = (*splitted)[0];
+    char* command = (*splitted)[0]; // Nom de la commande
     if (equals(command, "exit") || equals(command, "quit")) {
         // On se moque d'eventuels arguments fournis, si et seulement la commande en exige 0
         cmd->type = quit;
@@ -385,7 +389,7 @@ void read_from_stdin(Command* cmd) {
     } else if (equals(command, "help")) {
         cmd->type = help;
     } else {
-        printf("\nCommande inconnue.");
+        printf("\nCommande inconnue.\n");
         cmd->type = help;
     }
 

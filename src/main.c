@@ -6,12 +6,13 @@
 
 #include <stdio.h>
 
-STATE current_state = MAIN_MENU;
+STATE current_state = MAIN_MENU; // On commence sur le menu principal
 int running = 1;
-Area *area;
+Area *area; // Zone de dessin
 
 int main() {
     // À décommenter si rien ne s'affiche dans la console
+    // Décommenté.
     setvbuf(stdout, NULL, _IONBF, 0);
     while (running) {
 
@@ -39,6 +40,7 @@ int main() {
                 }
                 break;
             }
+            // Inutilisé depuis l'ajout de commandes
 //            case ADD_SHAPE: {
 //                print_add_shape_menu();
 //                listen_add_shape_menu();

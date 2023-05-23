@@ -7,7 +7,7 @@
 
 char*** split(const char* string, int str_size, char delimiter, int* number_of_substrings);
 int length(char** string);
-int to_lower(char** c, int size);
+int to_lower(char** string, int size);
 int equals(const char* a, const char* b);
 int parse_int(const char* str);
 

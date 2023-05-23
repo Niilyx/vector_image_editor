@@ -1,16 +1,24 @@
 //
 // Created by Niilyx on 19/05/2023.
 //
+// Des fonctions utilitaires pour les chaînes de caractères.
 
 #include <stdlib.h>
 
 #include "strings.h"
 
-int contains(const int* lst, int size, int x) {
+/**
+ * Vérifie si un tableau d'entiers contient une valeur.
+ * @param lst la liste d'entiers
+ * @param size sa taille
+ * @param val la valeur à chercher
+ * @return
+ */
+int contains(const int* lst, int size, int val) {
     if (lst == NULL) return 0;
 
     for (int i = 0; i < size; i++) {
-        if (lst[i] == x) return 1;
+        if (lst[i] == val) return 1;
     }
 
     return 0;
@@ -18,6 +26,8 @@ int contains(const int* lst, int size, int x) {
 
 /**
  * Découpe une chaîne de caractères en fonction d'un délimiteur.
+ * La fonction indique également le nombre de sous-chaînes obtenues.
+ *
  * @param string un pointeur vers la chaîne de caractères à découper
  * @param str_size la taille de la chaîne
  * @param delimiter le caractère délimitant
@@ -69,26 +79,43 @@ char*** split(const char* string, int str_size, char delimiter, int* substrings_
     return result;
 }
 
+/**
+ * Retourne la taille d'une chaînes de caractères.
+ * @param string le pointeur vers de chaînes de caractères
+ * @return la taille
+ */
 int length(char** string) {
     int i = 0;
-    while (string[i++] != NULL);
+    while ((*string)[i++] != '\0');
     return i - 1;
 }
 
-int to_lower(char** c, int size) {
-    if (c == NULL || *c == NULL) return 0;
+/**
+ * Convertit une chaîne de caractères en minuscules.
+ * @param string la chaines de caractères à convertir
+ * @param size sa taille
+ * @return une code de succès ou d'erreur inutilisé
+ */
+int to_lower(char** string, int size) {
+    if (string == NULL || *string == NULL) return 0;
 
     for (int i = 0; i < size; ++i) {
-        if ((*c)[i] < 'A' || 'Z' < (*c)[i]) {
+        if ((*string)[i] < 'A' || 'Z' < (*string)[i]) {
             continue;
         }
-        if ('A' <= (*c)[i] && (*c)[i] <= 'Z') {
-            (*c)[i] += 32;
+        if ('A' <= (*string)[i] && (*string)[i] <= 'Z') {
+            (*string)[i] += 32;
         }
     }
     return 1;
 }
 
+/**
+ * Vérifie si deux chaînes sont égales
+ * @param a première chaîne
+ * @param b deuxième chaîne
+ * @return 1 pour vrai, 0 pour faux
+ */
 int equals(const char* a, const char* b) {
     if (a == NULL || b == NULL) return 0;
 
@@ -99,6 +126,11 @@ int equals(const char* a, const char* b) {
     return !a[i] && !b[i] && a[i] == b[i];
 }
 
+/**
+ * Convertit une chaîne de caractères en entier (inclus les négatifs).
+ * @param str la chaîne à convertir
+ * @return l'entier obtenu
+ */
 int parse_int(const char* str) {
     if (str == NULL) return 0;
 
