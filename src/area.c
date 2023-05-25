@@ -15,10 +15,10 @@ Area* create_area(unsigned int width, unsigned int height) {
     Area *a = malloc(sizeof(Area));
     a->size_x = width;
     a->size_y = height;
-    a->mat = malloc(sizeof(int*) * width);
-    for (int i = 0; i < width; ++i) {
-        a->mat[i] = malloc(sizeof(int) * height);
-        for (int j = 0; j < height; ++j) {
+    a->mat = malloc(sizeof(int*) * height);
+    for (int i = 0; i < height; ++i) {
+        a->mat[i] = malloc(sizeof(int) * width);
+        for (int j = 0; j < width; ++j) {
             a->mat[i][j] = 0;
         }
     }
