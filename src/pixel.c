@@ -70,14 +70,14 @@ void pixel_line(Shape * shape, Pixel*** pixels, int* size) {
 
     if (dy < 0){ // On trace vers le bas
         if (dx > abs(dy)){ // Les segments sont horizontaux
-            for (int i = 0; i < nb_segs - 1; i++) {
+            for (int i = 0; i < nb_segs; i++) {
                 for (int j = 0; j < segments[i]; j++) {
                     *pixels = realloc(*pixels, ((*size) + 1) * sizeof(Pixel*));
                     (*pixels)[(*size)++] = create_pixel(x + k++, y - i);
                 }
             }
         } else { // Les segments sont verticaux
-            for (int i = 0; i < nb_segs - 1; i++){
+            for (int i = 0; i < nb_segs; i++){
                 for (int j = 0; j < segments[i]; j++){
                     *pixels = realloc(*pixels, ((*size) + 1) * sizeof(Pixel*));
                     (*pixels)[(*size)++] = create_pixel(x + i, y - k++);
@@ -86,7 +86,7 @@ void pixel_line(Shape * shape, Pixel*** pixels, int* size) {
         }
     } else { // On trace vers le haut
         if (dx > dy) { // Les segments sont horizontaux
-            for(int i = 0; i < nb_segs - 1; i++){
+            for(int i = 0; i < nb_segs; i++){
                 for(int j = 0; j < segments[i]; j++){
                     *pixels = realloc(*pixels, ((*size) + 1) * sizeof(Pixel*));
                     (*pixels)[(*size)++] = create_pixel(x + k++, y + i);
@@ -94,7 +94,7 @@ void pixel_line(Shape * shape, Pixel*** pixels, int* size) {
             }
         }
         else{ // Les segments sont verticaux
-            for (int i = 0; i < nb_segs - 1; i++){
+            for (int i = 0; i < nb_segs; i++){
                 for (int j = 0; j < segments[i]; j++){
                     *pixels = realloc(*pixels, ((*size) + 1) * sizeof(Pixel*));
                     (*pixels)[(*size)++] = create_pixel(x + i, y + k++);

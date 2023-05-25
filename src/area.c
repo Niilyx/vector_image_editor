@@ -68,6 +68,7 @@ void draw_area(Area* area) {
         for (int j = 0; j < n; ++j) {
             area->mat[pixels[j]->py][pixels[j]->px] = 1;
         }
+        delete_pixel_shape(&pixels, n);
     }
 }
 
