@@ -276,7 +276,7 @@ void read_from_stdin(Command* cmd) {
         int x = parse_int((*splitted)[1]);
         int y = parse_int((*splitted)[2]);
         if (x < 0 || y < 0) {
-            cleanup_scanning(splitted, 0);
+            cleanup_scanning(splitted, substrings_number);
             return;
         }
 
@@ -285,7 +285,7 @@ void read_from_stdin(Command* cmd) {
         cmd->type = point;
     } else if (equals(command, "line")) {
         if (!check_args_number(substrings_number, line)) {
-            cleanup_scanning(splitted, 0);
+            cleanup_scanning(splitted, substrings_number);
             return;
         }
 
@@ -294,7 +294,7 @@ void read_from_stdin(Command* cmd) {
         int x2 = parse_int((*splitted)[3]);
         int y2 = parse_int((*splitted)[4]);
         if (x1 < 0 || y1 < 0 || x2 < 0 || y2 < 0) {
-            cleanup_scanning(splitted, 0);
+            cleanup_scanning(splitted, substrings_number);
             return;
         }
 
@@ -305,7 +305,7 @@ void read_from_stdin(Command* cmd) {
         cmd->type = line;
     } else if (equals(command, "circle")) {
         if (!check_args_number(substrings_number, circle)) {
-            cleanup_scanning(splitted, 0);
+            cleanup_scanning(splitted, substrings_number);
             return;
         }
 
@@ -313,7 +313,7 @@ void read_from_stdin(Command* cmd) {
         int y = parse_int((*splitted)[2]);
         int r = parse_int((*splitted)[3]);
         if (x < 0 || y < 0 || r < 0) {
-            cleanup_scanning(splitted, 0);
+            cleanup_scanning(splitted, substrings_number);
             return;
         }
 
@@ -323,7 +323,7 @@ void read_from_stdin(Command* cmd) {
         cmd->type = circle;
     } else if (equals(command, "square")) {
         if (!check_args_number(substrings_number, square)) {
-            cleanup_scanning(splitted, 0);
+            cleanup_scanning(splitted, substrings_number);
             return;
         }
 
@@ -331,7 +331,7 @@ void read_from_stdin(Command* cmd) {
         int y = parse_int((*splitted)[2]);
         int l = parse_int((*splitted)[3]);
         if (x < 0 || y < 0 || l < 0) {
-            cleanup_scanning(splitted, 0);
+            cleanup_scanning(splitted, substrings_number);
             return;
         }
 
@@ -341,7 +341,7 @@ void read_from_stdin(Command* cmd) {
         cmd->type = square;
     } else if (equals(command, "rectangle")) {
         if (!check_args_number(substrings_number, rectangle)) {
-            cleanup_scanning(splitted, 0);
+            cleanup_scanning(splitted, substrings_number);
             return;
         }
 
@@ -350,7 +350,7 @@ void read_from_stdin(Command* cmd) {
         int l = parse_int((*splitted)[3]);
         int h = parse_int((*splitted)[4]);
         if (x < 0 || y < 0 || l < 0 || h < 0) {
-            cleanup_scanning(splitted, 0);
+            cleanup_scanning(splitted, substrings_number);
             return;
         }
 
@@ -361,7 +361,7 @@ void read_from_stdin(Command* cmd) {
         cmd->type = rectangle;
     } else if (equals(command, "polygon")) {
         if (!check_args_number(substrings_number, polygon)) {
-            cleanup_scanning(splitted, 0);
+            cleanup_scanning(splitted, substrings_number);
             return;
         }
 
@@ -372,7 +372,7 @@ void read_from_stdin(Command* cmd) {
                 add_int_param(cmd, x);
                 add_int_param(cmd, y);
             } else {
-                cleanup_scanning(splitted, 0);
+                cleanup_scanning(splitted, substrings_number);
                 return;
             }
         }
@@ -381,13 +381,13 @@ void read_from_stdin(Command* cmd) {
         cmd->type = plot;
     } else if (equals(command, "delete") || equals(command, "del")) {
         if (!check_args_number(substrings_number, delete)) {
-            cleanup_scanning(splitted, 0);
+            cleanup_scanning(splitted, substrings_number);
             return;
         }
 
         int id = parse_int((*splitted)[1]);
         if (id < 0) {
-            cleanup_scanning(splitted, 0);
+            cleanup_scanning(splitted, substrings_number);
             return;
         }
 
@@ -407,5 +407,5 @@ void read_from_stdin(Command* cmd) {
 
 
     // On nettoie
-    cleanup_scanning(splitted, 0);
+    cleanup_scanning(splitted, substrings_number);
 }
